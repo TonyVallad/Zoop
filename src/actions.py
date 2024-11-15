@@ -177,7 +177,7 @@ def feed_animal(stdscr):
 
     if animal:
         name, diet = animal
-        if food_type == diet:
+        if diet == "omnivore" or food_type == diet:
             # Success message in green
             stdscr.addstr(start_line + 9, 0, f"{name} has been fed correctly with {food_type} food.", curses.color_pair(1))
         else:

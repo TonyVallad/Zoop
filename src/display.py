@@ -25,7 +25,7 @@ def display_title(stdscr):
     title = "Zoo Management System"
     start_x_title = (width - len(title)) // 2
     stdscr.addstr(0, start_x_title, " ------------------- ", curses.color_pair(4))
-    stdscr.addstr(1, start_x_title, title, curses.color_pair(4))
+    stdscr.addstr(1, start_x_title, title, curses.color_pair(6))
     stdscr.addstr(2, start_x_title, " ------------------- ", curses.color_pair(4))
 
     # Return the start line for content beneath the title
