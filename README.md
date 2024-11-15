@@ -1,7 +1,7 @@
 ### **<h1 align="center">Zoo Management Simulator</h1>**
 
 <p align="center">
-  <img src="src/static/logo.png" alt="Zoo Logo">
+  <img src="src/static/logo.png" alt="Zoo Logo" width="250">
 </p>
 
 <p align="center">
