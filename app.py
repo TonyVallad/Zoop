@@ -1,70 +1,41 @@
-class Zoo:
-    def __init__(self):
-        self.cages = []
+import curses
+from src.database import initialize_db
+from src.display import initialize_colors, display_all
+from src.actions import create_species, add_cage, add_animal, move_animal, feed_animal, remove_dead_animals_from_cages
+from src.zoo import Zoo
 
-    def add_cage(self, cage):
-        self.cages.append(cage)
-        print(f"Cage {cage.cage_id} added to the zoo.")
+def main(stdscr):
+    # Initialize the database and setup curses
+    initialize_db()
+    initialize_colors()
 
-    def count_cages(self):
-        return len(self.cages)
+    # Create a Zoo instance
+    zoo = Zoo()
 
-    def display_cages(self):
-        for cage in self.cages:
-            cage.list_animals()
+    # Main application loop
+    while True:
+        # Display the main menu and all zoo data
+        display_all(stdscr)
 
+        # Wait for user input
+        key = stdscr.getch()
 
-class Cage:
-    def __init__(self, cage_id):
-        self.cage_id = cage_id
-        self.animals = []
+        # Handle user input for actions
+        if key == ord("c"):
+            create_species(stdscr)
+        elif key == ord("g"):
+            add_cage(stdscr, zoo)
+        elif key == ord("a"):
+            add_animal(stdscr, zoo)
+        elif key == ord("m"):
+            move_animal(stdscr, zoo)
+        elif key == ord("f"):
+            feed_animal(stdscr)
+        elif key == ord("r"):
+            remove_dead_animals_from_cages(stdscr)
+        elif key == ord("q"):
+            break
 
-    def add_animal(self, animal):
-        self.animals.append(animal)
-        print(f"{animal.name} the {animal.species} added to cage {self.cage_id}.")
-
-    def list_animals(self):
-        if not self.animals:
-            print(f"Cage {self.cage_id} is empty.")
-        else:
-            for animal in self.animals:
-                print(f"{animal.name} ({animal.species})")
-
-
-class Animal:
-    def __init__(self, name, species, diet):
-        self.name = name
-        self.species = species
-        self.diet = diet
-
-    def feed(self, food_type):
-        if food_type == self.diet:
-            print(f"{self.name} the {self.species} has been fed.")
-        else:
-            print(f"{self.name} the {self.species} cannot eat {food_type}.")
-
-
-class Lion(Animal):
-    def __init__(self, name):
-        super().__init__(name, "Lion", "carnivore")
-
-
-class Gazelle(Animal):
-    def __init__(self, name):
-        super().__init__(name, "Gazelle", "herbivore")
-
-
-# Example usage:
-zoo = Zoo()
-cage1 = Cage(1)
-zoo.add_cage(cage1)
-
-lion = Lion("Leo")
-gazelle = Gazelle("Gizelle")
-
-cage1.add_animal(lion)
-cage1.add_animal(gazelle)
-cage1.list_animals()
-
-lion.feed("carnivore")
-gazelle.feed("carnivore")
+# Run the curses wrapper
+if __name__ == "__main__":
+    curses.wrapper(main)
